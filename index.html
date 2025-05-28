@@ -2,15 +2,33 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Chronik-Tagebuch</title>
+  <title>Mein Chronik-Tagebuch</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <nav>
+    <ul>
+      <li><a href="#willkommen">Willkommen</a></li>
+      <li><a href="#gruppe">Gruppe</a></li>
+      <li><a href="#chronik">Chronik</a></li>
+      <li><a href="#eingabe">Neuer Eintrag</a></li>
+    </ul>
+  </nav>
+
+  <header id="willkommen">
     <h1>📘 Mein Chronik-Tagebuch</h1>
     <p>Erfasse Erinnerungen, Charaktere und Ereignisse über die Jahre.</p>
   </header>
+
+  <section id="gruppe">
+    <h2>👥 Gruppe</h2>
+    <ul>
+      <li><strong>Anna</strong> – Die Strategin</li>
+      <li><strong>Ben</strong> – Der Abenteurer</li>
+      <li><strong>Clara</strong> – Die Vermittlerin</li>
+    </ul>
+  </section>
 
   <section id="eingabe">
     <h2>✍️ Neuen Eintrag hinzufügen</h2>
@@ -31,4 +49,8 @@
   <section id="chronik">
     <h2>🗂️ Chronik</h2>
     <div id="eintraegeContainer"></div>
-  </sect
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
