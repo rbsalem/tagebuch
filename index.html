@@ -1,39 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Markdown Chronik</title>
-  <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mein Tagebuch</title>
 </head>
-<body class="dark">
-  <header>
-    <h1>📘 Meine Markdown-Chronik</h1>
-    <button id="toggleDarkMode">🌗 Modus wechseln</button>
-  </header>
+<body>
+  <h1>📓 Mein Tagebuch</h1>
+  <form id="diaryForm">
+    <label for="textEntry">Tagebucheintrag:</label><br />
+    <textarea id="textEntry" name="textEntry" rows="10" cols="50"></textarea><br /><br />
 
-  <main>
-    <section id="upload">
-      <h2>📤 Hochladen</h2>
-      <button onclick="handleAuthClick()">🔐 Mit Google anmelden</button><br>
-      <input type="file" id="fileInput" accept=".md" multiple><br>
-      <button onclick="uploadFiles()">Dateien hochladen</button>
-      <pre id="status"></pre>
-    </section>
+    <label for="fileUpload">Datei anhängen (optional):</label><br />
+    <input type="file" id="fileUpload" name="fileUpload" /><br /><br />
 
-    <section id="chronik">
-      <h2>🗂️ Chronik-Einträge</h2>
-      <div id="fileList"></div>
-    </section>
+    <button type="submit">Speichern</button>
+  </form>
 
-    <section id="preview">
-      <h2>👁️ Vorschau</h2>
-      <div id="previewContent">Wähle eine Datei aus der Liste aus.</div>
-    </section>
-  </main>
+  <p id="status"></p>
 
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script src="script.js"></script>
+  <script>
+    document.getElementById("diaryForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const form = new FormData();
+      form.append("text", document.getElementById("textEntry").value);
+      const fileInput = document.getElementById("fileUpload");
+      if (fileInput.files.length > 0) {
+        form.append("file", fileInput.files[0]);
+      }
+
+      const response = await fetch("DEIN_SCRIPT_URL_HIER", {
+        method: "POST",
+        body: form,
+      });
+
+      const status = document.getElementById("status");
+      if (response.ok) {
+        status.textContent = "✅ Eintrag gespeichert!";
+      } else {
+        status.textContent = "❌ Fehler beim Speichern.";
+      }
+    });
+  </script>
 </body>
 </html>
