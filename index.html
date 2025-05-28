@@ -2,126 +2,50 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Mein Chronik-Tagebuch</title>
+  <title>📖 Mein Heldentagebuch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dark">
 
-  <nav>
-    <div class="nav-links">
-      <a href="#gruppe">Gruppe</a>
-      <a href="#chronik">Chronik</a>
-      <a href="#eingabe">Neuer Eintrag</a>
-    </div>
-    <div class="nav-right">
-      <input type="text" id="suchfeld" placeholder="🔍 Suchen ..." />
-      <button id="toggleDarkMode" title="Modus wechseln">🌙</button>
-    </div>
-  </nav>
+  <!-- 🌗 Toggle Button für Dark/Light Mode -->
+  <button id="toggleDarkMode" title="Modus wechseln">☀️</button>
 
-  <header>
-    <h1>📘 Mein Chronik-Tagebuch</h1>
-  </header>
-
-  <section id="gruppe">
-    <h2>👥 Gruppe</h2>
-    <details>
-      <summary><strong>Anna</strong></summary>
-      <p>Anna ist die Strategin der Gruppe, ruhig, klug und vorausschauend.</p>
-      <img src="https://via.placeholder.com/300x200?text=Anna" alt="Anna">
-    </details>
-    <details>
-      <summary><strong>Ben</strong></summary>
-      <p>Ben ist der Abenteurer – mutig, risikobereit und direkt.</p>
-      <img src="https://via.placeholder.com/300x200?text=Ben" alt="Ben">
-    </details>
-    <details>
-      <summary><strong>Clara</strong></summary>
-      <p>Clara vermittelt zwischen allen, sie ist aufmerksam und herzlich.</p>
-      <img src="https://via.placeholder.com/300x200?text=Clara" alt="Clara">
-    </details>
+  <!-- 🏰 Willkommen -->
+  <section id="willkommen">
+    <h1>Willkommen im Heldentagebuch</h1>
+    <p>Mögen deine Geschichten den Schatten trotzen und die Erinnerung bewahren.</p>
   </section>
 
+  <!-- 🛡️ Heldenübersicht -->
+  <section id="helden">
+    <h2>🛡️ Helden</h2>
+    <p>(Hier werden später deine Charaktere vorgestellt...)</p>
+  </section>
+
+  <!-- 📜 Chronik -->
   <section id="chronik">
-    <h2>🗂️ Chronik</h2>
+    <h2>📜 Chronik</h2>
     <div id="eintraegeContainer"></div>
   </section>
 
+  <!-- ✍️ Eingabeformular -->
   <section id="eingabe">
-    <h2>✍️ Neuen Eintrag hinzufügen</h2>
+    <h2>✍️ Neuer Eintrag</h2>
     <form id="eintragForm">
-      <label for="datum_irdisch"><strong>📆 Irdisches Datum</strong></label>
-      <input type="date" id="datum_irdisch" name="datum_irdisch" required />
+      <label for="titel">Titel des Eintrags</label>
+      <input type="text" id="titel" required />
 
-      <fieldset>
-        <legend><strong>🛡️ Aventurisches Datum (nach Bosparans Fall)</strong></legend>
-        <select id="av_tag" required>
-  <option value="">Tag</option>
-  <option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="15">15</option>
-<option value="16">16</option>
-<option value="17">17</option>
-<option value="18">18</option>
-<option value="19">19</option>
-<option value="20">20</option>
-<option value="21">21</option>
-<option value="22">22</option>
-<option value="23">23</option>
-<option value="24">24</option>
-<option value="25">25</option>
-<option value="26">26</option>
-<option value="27">27</option>
-<option value="28">28</option>
-<option value="29">29</option>
-<option value="30">30</option>
-</select>
-<div id="namenlosHinweis" style="display:none; margin-top:0.5em; font-style:italic;">
-  5 Tage des Namenlosen (keine regulären Tage)
-</div>
-        <select id="av_monat" required>
-          <option value="">Monat</option>
-          <option>Praios</option>
-          <option>Rondra</option>
-          <option>Efferd</option>
-          <option>Travia</option>
-          <option>Boron</option>
-          <option>Hesinde</option>
-          <option>Firun</option>
-          <option>Tsa</option>
-          <option>Phex</option>
-          <option>Peraine</option>
-          <option>Ingerimm</option>
-          <option>Rahja</option>
-<option value="namenlos">Tage des Namenlosen</option>
-        </select>
-        <input type="number" id="av_jahr_bf" placeholder="Jahr (BF)" value="1028" required />
-        <span id="hal_anzeige">(Hal: ...)</span>
-      </fieldset>
+      <label for="datum">Datum</label>
+      <input type="date" id="datum" required />
 
-      <label for="titel"><strong>🧭 Abenteuername</strong></label>
-      <input type="text" id="titel" placeholder="Name des Abenteuers" required />
+      <label for="text">Eintrag</label>
+      <textarea id="text" rows="6" placeholder="Was ist geschehen?..." required></textarea>
 
-      <label for="text"><strong>📝 Eintrag</strong></label>
-      <textarea id="text" placeholder="Dein Eintrag (Text, [img:URL], [link:Text](URL))" required></textarea>
-
-      <button type="submit">Eintrag speichern</button>
+      <button type="submit">Speichern</button>
     </form>
   </section>
-
 
   <script src="script.js"></script>
 </body>
