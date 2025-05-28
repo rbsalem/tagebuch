@@ -1,108 +1,76 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #fdfbfb, #ebedee);
-  color: #333;
-  max-width: 960px;
-  margin: auto;
-  padding: 1em;
+const eintraegeKey = "tagebuchEintraege";
+let eintraege = JSON.parse(localStorage.getItem(eintraegeKey)) || [];
+
+const form = document.getElementById("eintragForm");
+const suchfeld = document.getElementById("suchfeld");
+const container = document.getElementById("eintraegeContainer");
+
+function renderEintraege(filter = "") {
+  container.innerHTML = "";
+
+  const gruppiert = {};
+  eintraege.forEach(e => {
+    const jahr = e.jahr;
+    const monat = e.monat;
+    if (!gruppiert[jahr]) gruppiert[jahr] = {};
+    if (!gruppiert[jahr][monat]) gruppiert[jahr][monat] = [];
+    gruppiert[jahr][monat].push(e);
+  });
+
+  Object.keys(gruppiert).sort().reverse().forEach(jahr => {
+    const jahrBox = document.createElement("details");
+    jahrBox.innerHTML = `<summary><h3>📅 ${jahr}</h3></summary>`;
+
+    Object.keys(gruppiert[jahr]).forEach(monat => {
+      const monatBox = document.createElement("details");
+      monatBox.innerHTML = `<summary>📆 ${monat}</summary>`;
+
+      gruppiert[jahr][monat].forEach(eintrag => {
+        if (
+          filter &&
+          !eintrag.text.toLowerCase().includes(filter.toLowerCase())
+        )
+          return;
+
+        const div = document.createElement("div");
+        div.className = "eintrag";
+        div.innerHTML = formatEintrag(eintrag);
+        monatBox.appendChild(div);
+      });
+
+      jahrBox.appendChild(monatBox);
+    });
+
+    container.appendChild(jahrBox);
+  });
 }
 
-nav {
-  background: #ffffffcc;
-  backdrop-filter: blur(5px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 1em;
-  border-bottom: 1px solid #ccc;
-  text-align: center;
+function formatEintrag(e) {
+  let text = e.text;
+
+  text = text.replace(/\[img:(.*?)\]/g, '<img src="$1">');
+  text = text.replace(/\[link:(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+  return `<strong>${e.datum}</strong><br>${text}`;
 }
 
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  gap: 2em;
-}
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const datum = document.getElementById("datum").value;
+  const jahr = document.getElementById("jahr").value;
+  const monat = document.getElementById("monat").value;
+  const text = document.getElementById("text").value.trim();
 
-nav a {
-  text-decoration: none;
-  color: #3498db;
-  font-weight: bold;
-}
+  if (!datum || !jahr || !monat || !text) return;
 
-nav a:hover {
-  color: #2980b9;
-}
+  eintraege.push({ datum, jahr, monat, text });
+  localStorage.setItem(eintraegeKey, JSON.stringify(eintraege));
+  form.reset();
+  renderEintraege();
+});
 
-header, section {
-  margin-bottom: 2em;
-  padding: 1em;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+suchfeld.addEventListener("input", e => {
+  renderEintraege(e.target.value);
+});
 
-h1, h2 {
-  color: #2c3e50;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6em;
-}
-
-input, textarea, button {
-  padding: 0.8em;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1em;
-}
-
-button {
-  background: #3498db;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background: #2980b9;
-}
-
-details {
-  margin-top: 1em;
-  transition: all 0.3s ease;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  padding: 1em;
-}
-
-details summary {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.eintrag {
-  background: #fafafa;
-  margin-top: 0.8em;
-  padding: 1em;
-  border-left: 4px solid #3498db;
-  border-radius: 6px;
-  transition: box-shadow 0.2s ease;
-}
-
-.eintrag:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-img {
-  max-width: 100%;
-  margin-top: 0.5em;
-  border-radius: 6px;
-}
+renderEintraege();
