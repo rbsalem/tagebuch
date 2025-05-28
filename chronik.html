@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>📖 Heldentagebuch Südaventurien</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+  <button id="toggleDarkMode" title="Modus wechseln">☀️</button>
+
+  <div class="sidebar">
+    <h2>🧭 Navigation</h2>
+    <ul>
+      <li><a href="#willkommen">🏰 Willkommen</a></li>
+      <li><a href="#helden">🛡️ Helden</a></li>
+      <li><a href="#chronik">📜 Chronik</a></li>
+      <li><a href="#eingabe">✍️ Neuer Eintrag</a></li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <section id="willkommen">
+      <h1>Willkommen im Heldentagebuch</h1>
+      <p>Die Wellen des Südmeers tragen Geschichten von Mut, List und Magie.</p>
+    </section>
+
+    <section id="helden">
+      <h2>🛡️ Helden</h2>
+      <p>Bald wirst du hier deine Gefährten sehen...</p>
+    </section>
+
+    <section id="chronik">
+      <h2>📜 Chronik</h2>
+      <div id="eintraegeContainer"></div>
+    </section>
+
+    <section id="eingabe">
+      <h2>✍️ Neuer Eintrag</h2>
+      <form id="eintragForm">
+        <label for="titel">Titel des Eintrags</label>
+        <input type="text" id="titel" required />
+
+        <label for="datum">Datum</label>
+        <input type="date" id="datum" required />
+
+        <label for="text">Eintrag</label>
+        <textarea id="text" rows="6" placeholder="Was ist geschehen?..." required></textarea>
+
+        <button type="submit">Speichern</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
