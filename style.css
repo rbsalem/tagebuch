@@ -1,33 +1,28 @@
 :root {
   --bg: #ffffff;
-  --bg-secondary: #f7f7f7;
-  --text: #333;
+  --text: #222;
+  --card: #fff;
   --accent: #3498db;
-  --card-bg: #ffffff;
 }
-
 body.dark {
-  --bg: #1e1e1e;
-  --bg-secondary: #2b2b2b;
-  --text: #f1f1f1;
+  --bg: #1f1f1f;
+  --text: #f0f0f0;
+  --card: #2a2a2a;
   --accent: #4aa3f0;
-  --card-bg: #2f2f2f;
 }
-
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   max-width: 960px;
   margin: auto;
   padding: 0 1em;
   transition: background 0.3s ease, color 0.3s ease;
 }
-
 nav {
   position: sticky;
   top: 0;
-  background: var(--card-bg);
+  background: var(--card);
   backdrop-filter: blur(6px);
   display: flex;
   justify-content: space-between;
@@ -36,97 +31,72 @@ nav {
   border-bottom: 1px solid #ccc;
   z-index: 999;
 }
-
 nav .nav-links a {
   margin-right: 1.5em;
   text-decoration: none;
   color: var(--accent);
   font-weight: bold;
 }
-
 nav .nav-links a:hover {
   color: #2980b9;
 }
-
-nav .suchfeld input {
+nav .nav-right input {
   padding: 0.5em;
   border-radius: 8px;
   border: 1px solid #ccc;
-  min-width: 200px;
-  background: var(--bg-secondary);
+  background: var(--card);
   color: var(--text);
 }
-
-nav .dark-toggle button {
+nav .dark-toggle button, #toggleDarkMode {
   background: none;
   border: none;
   font-size: 1.2em;
   cursor: pointer;
   color: var(--accent);
 }
-
 header, section {
   margin: 2em 0;
   padding: 1.5em;
-  background: var(--card-bg);
+  background: var(--card);
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.08);
 }
-
-h1, h2 {
-  color: var(--text);
-}
-
 form {
   display: flex;
   flex-direction: column;
   gap: 0.8em;
 }
-
 input, textarea, button {
   padding: 0.8em;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1em;
-  background: var(--bg-secondary);
+  background: var(--card);
   color: var(--text);
 }
-
 button {
-  background: var(--accent);
+  background-color: var(--accent);
   color: white;
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
-
 button:hover {
-  background: #2980b9;
+  background-color: #2980b9;
 }
-
 details {
   margin-top: 1em;
-  background: var(--bg-secondary);
+  background: var(--card);
   padding: 1em;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
 }
-
-details summary {
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .eintrag {
-  background: var(--card-bg);
+  background: var(--card);
   margin: 0.8em 0;
   padding: 1em;
   border-left: 4px solid var(--accent);
   border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-
 img {
   max-width: 100%;
   margin-top: 0.5em;

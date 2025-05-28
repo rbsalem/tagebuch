@@ -73,11 +73,10 @@ suchfeld.addEventListener("input", e => {
   renderEintraege(e.target.value);
 });
 
-// Dark Mode
 function applyTheme() {
-  const dark = localStorage.getItem("darkmode") === "true";
-  body.classList.toggle("dark", dark);
-  toggleButton.textContent = dark ? "☀️" : "🌙";
+  const isDark = localStorage.getItem("darkmode") === "true";
+  body.classList.toggle("dark", isDark);
+  toggleButton.textContent = isDark ? "☀️" : "🌙";
 }
 
 toggleButton.addEventListener("click", () => {

@@ -14,10 +14,8 @@
       <a href="#chronik">Chronik</a>
       <a href="#eingabe">Neuer Eintrag</a>
     </div>
-    <div class="suchfeld">
-      <input type="text" id="suchfeld" placeholder="🔍 Einträge suchen ..." />
-    </div>
-    <div class="dark-toggle">
+    <div class="nav-right">
+      <input type="text" id="suchfeld" placeholder="🔍 Suchen ..." />
       <button id="toggleDarkMode" title="Modus wechseln">🌙</button>
     </div>
   </nav>
@@ -28,22 +26,39 @@
 
   <section id="gruppe">
     <h2>👥 Gruppe</h2>
-
     <details>
       <summary><strong>Anna</strong></summary>
       <p>Anna ist die Strategin der Gruppe, ruhig, klug und vorausschauend.</p>
       <img src="https://via.placeholder.com/300x200?text=Anna" alt="Anna">
     </details>
-
     <details>
       <summary><strong>Ben</strong></summary>
       <p>Ben ist der Abenteurer – mutig, risikobereit und direkt.</p>
       <img src="https://via.placeholder.com/300x200?text=Ben" alt="Ben">
     </details>
-
     <details>
       <summary><strong>Clara</strong></summary>
       <p>Clara vermittelt zwischen allen, sie ist aufmerksam und herzlich.</p>
       <img src="https://via.placeholder.com/300x200?text=Clara" alt="Clara">
     </details>
-  <
+  </section>
+
+  <section id="chronik">
+    <h2>🗂️ Chronik</h2>
+    <div id="eintraegeContainer"></div>
+  </section>
+
+  <section id="eingabe">
+    <h2>✍️ Neuen Eintrag hinzufügen</h2>
+    <form id="eintragForm">
+      <input type="date" id="datum" required />
+      <input type="text" id="jahr" placeholder="Jahr (z. B. 2025)" required />
+      <input type="text" id="monat" placeholder="Monat (z. B. Mai)" required />
+      <textarea id="text" placeholder="Dein Eintrag (Text, [img:URL], [link:Text](URL))" required></textarea>
+      <button type="submit">Eintrag speichern</button>
+    </form>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
