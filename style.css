@@ -1,15 +1,48 @@
 body {
-  font-family: sans-serif;
-  background: linear-gradient(to bottom, #f7f7f7, #e0e0e0);
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #fdfbfb, #ebedee);
   color: #333;
-  max-width: 900px;
+  max-width: 960px;
   margin: auto;
-  padding: 2em;
+  padding: 1em;
 }
 
-header {
+nav {
+  background: #ffffffcc;
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1em;
+  border-bottom: 1px solid #ccc;
   text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+}
+
+nav a {
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #2980b9;
+}
+
+header, section {
   margin-bottom: 2em;
+  padding: 1em;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 h1, h2 {
@@ -19,44 +52,53 @@ h1, h2 {
 form {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-  background: white;
-  padding: 1em;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin-bottom: 2em;
+  gap: 0.6em;
 }
 
 input, textarea, button {
-  padding: 0.7em;
-  border-radius: 6px;
+  padding: 0.8em;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 1em;
 }
 
 button {
-  background-color: #3498db;
+  background: #3498db;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background-color: #2980b9;
+  background: #2980b9;
 }
 
 details {
-  margin: 1em 0;
+  margin-top: 1em;
+  transition: all 0.3s ease;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   background: #fff;
   padding: 1em;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+details summary {
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .eintrag {
-  background: #f1f1f1;
-  margin: 0.5em 0;
+  background: #fafafa;
+  margin-top: 0.8em;
   padding: 1em;
+  border-left: 4px solid #3498db;
   border-radius: 6px;
+  transition: box-shadow 0.2s ease;
+}
+
+.eintrag:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 img {
