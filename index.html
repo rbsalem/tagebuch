@@ -1,73 +1,112 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Privates Tagebuch</title>
-    <meta name="robots" content="noindex, nofollow">
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 800px;
-            margin: auto;
-            padding: 2em;
-            background-color: #f0f0f0;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin-bottom: 1em;
-        }
-        .eintrag {
-            background: white;
-            padding: 1em;
-            margin-top: 1em;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Chronik-Tagebuch</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2em;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    h1, h2, h3 {
+      color: #444;
+    }
+
+    section {
+      margin-bottom: 3em;
+      padding: 1em;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .gruppe ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .gruppe li {
+      margin-bottom: 0.5em;
+    }
+
+    details {
+      margin-top: 1em;
+      margin-left: 1em;
+    }
+
+    .eintrag {
+      margin-left: 2em;
+      margin-top: 0.5em;
+      background: #eaeaea;
+      padding: 0.5em;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-    <div id="tagebuch">
-        <h1>Mein Tagebuch</h1>
-        <form id="form">
-            <textarea id="text" placeholder="Neuer Eintrag..." required></textarea><br>
-            <button type="submit">Speichern</button>
-        </form>
-        <h2>Einträge</h2>
-        <div id="eintraege"></div>
-    </div>
 
-    <script>
-        const form = document.getElementById('form');
-        const text = document.getElementById('text');
-        const eintraegeDiv = document.getElementById('eintraege');
-        let eintraege = JSON.parse(localStorage.getItem('tagebuchEintraege') || '[]');
+  <!-- Willkommen -->
+  <section id="willkommen">
+    <h1>Willkommen in meinem Tagebuch</h1>
+    <p>Hier dokumentiere ich Gedanken, Ereignisse und Erinnerungen über die Zeit.</p>
+  </section>
 
-        function zeigeEintraege() {
-            eintraegeDiv.innerHTML = '';
-            eintraege.slice().reverse().forEach(eintrag => {
-                const div = document.createElement('div');
-                div.className = 'eintrag';
-                div.textContent = `[${eintrag.datum}] ${eintrag.text}`;
-                eintraegeDiv.appendChild(div);
-            });
-        }
+  <!-- Gruppe / Charaktere -->
+  <section id="gruppe" class="gruppe">
+    <h2>Gruppe</h2>
+    <ul>
+      <li><strong>Anna</strong> – Die Strategin, ruhig und klug</li>
+      <li><strong>Ben</strong> – Der Abenteurer, mutig und direkt</li>
+      <li><strong>Clara</strong> – Die Vermittlerin, herzlich und aufmerksam</li>
+    </ul>
+  </section>
 
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const neuerEintrag = {
-                datum: new Date().toLocaleString(),
-                text: text.value.trim()
-            };
-            if (neuerEintrag.text) {
-                eintraege.push(neuerEintrag);
-                localStorage.setItem('tagebuchEintraege', JSON.stringify(eintraege));
-                text.value = '';
-                zeigeEintraege();
-            }
-        });
+  <!-- Zeitstruktur -->
+  <section id="chronik">
+    <h2>Chronik</h2>
 
-        zeigeEintraege();
-    </script>
+    <!-- Jahr -->
+    <details open>
+      <summary><h3>2023</h3></summary>
+
+      <!-- Monat -->
+      <details>
+        <summary>Januar</summary>
+        <div class="eintrag">
+          <strong>01. Januar:</strong> Neues Jahr, neue Hoffnung. Erste gemeinsame Pläne.
+        </div>
+        <div class="eintrag">
+          <strong>15. Januar:</strong> Streit zwischen Anna und Ben. Clara schlichtet.
+        </div>
+      </details>
+
+      <details>
+        <summary>Februar</summary>
+        <div class="eintrag">
+          <strong>03. Februar:</strong> Wanderung in den Bergen – schwierige Entscheidungen.
+        </div>
+      </details>
+    </details>
+
+    <!-- Weiteres Jahr -->
+    <details>
+      <summary><h3>2024</h3></summary>
+
+      <details>
+        <summary>März</summary>
+        <div class="eintrag">
+          <strong>05. März:</strong> Rückkehr in die Heimat.
+        </div>
+      </details>
+
+    </details>
+
+  </section>
+
 </body>
 </html>
