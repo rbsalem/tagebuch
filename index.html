@@ -51,13 +51,61 @@
   <section id="eingabe">
     <h2>✍️ Neuen Eintrag hinzufügen</h2>
     <form id="eintragForm">
-      <input type="date" id="datum" required />
-      <input type="text" id="jahr" placeholder="Jahr (z. B. 2025)" required />
-      <input type="text" id="monat" placeholder="Monat (z. B. Mai)" required />
+      <label for="datum_irdisch"><strong>📆 Irdisches Datum</strong></label>
+      <input type="date" id="datum_irdisch" name="datum_irdisch" required />
+
+      <fieldset>
+        <legend><strong>🛡️ Aventurisches Datum (nach Bosparans Fall)</strong></legend>
+        <select id="av_tag" required></select>
+        <select id="av_monat" required>
+          <option value="">Monat</option>
+          <option>Praios</option>
+          <option>Rondra</option>
+          <option>Efferd</option>
+          <option>Travia</option>
+          <option>Boron</option>
+          <option>Hesinde</option>
+          <option>Firun</option>
+          <option>Tsa</option>
+          <option>Phex</option>
+          <option>Peraine</option>
+          <option>Ingerimm</option>
+          <option>Rahja</option>
+        </select>
+        <input type="number" id="av_jahr_bf" placeholder="Jahr (BF)" required />
+        <span id="hal_anzeige">(Hal: ...)</span>
+      </fieldset>
+
+      <label for="titel"><strong>🧭 Abenteuername</strong></label>
+      <input type="text" id="titel" placeholder="Name des Abenteuers" required />
+
+      <label for="text"><strong>📝 Eintrag</strong></label>
       <textarea id="text" placeholder="Dein Eintrag (Text, [img:URL], [link:Text](URL))" required></textarea>
+
       <button type="submit">Eintrag speichern</button>
     </form>
   </section>
+
+  <aside id="aventurienKalender">
+    <button id="kalenderToggle">📅 Kalender öffnen</button>
+    <div id="kalenderInhalt" style="display: none;">
+      <h3>Aventurischer Kalender</h3>
+      <ul id="monatsListe">
+        <li><abbr title="Sommerbeginn, Sonnenlauf, Fest der Sonne">Praios</abbr></li>
+        <li><abbr title="Kriegerkult, Mut, Rondragefällige Turniere">Rondra</abbr></li>
+        <li><abbr title="Wasser, Seehandel, Götterlauf">Efferd</abbr></li>
+        <li><abbr title="Heimat, Familie, Herdfeuer">Travia</abbr></li>
+        <li><abbr title="Tod, Ahnenkult, Totenriten">Boron</abbr></li>
+        <li><abbr title="Wissen, Magie, Götterverständnis">Hesinde</abbr></li>
+        <li><abbr title="Jagd, Winter, Überleben">Firun</abbr></li>
+        <li><abbr title="Neubeginn, Heilung, Geburt">Tsa</abbr></li>
+        <li><abbr title="List, Nacht, Heimlichkeit">Phex</abbr></li>
+        <li><abbr title="Fruchtbarkeit, Ackerbau, Heilkunst">Peraine</abbr></li>
+        <li><abbr title="Schmiedekunst, Feuer, Vulkane">Ingerimm</abbr></li>
+        <li><abbr title="Liebe, Kunst, Rausch">Rahja</abbr></li>
+      </ul>
+    </div>
+  </aside>
 
   <script src="script.js"></script>
 </body>

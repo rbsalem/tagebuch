@@ -87,3 +87,32 @@ toggleButton.addEventListener("click", () => {
 
 applyTheme();
 renderEintraege();
+
+for (let i = 1; i <= 31; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i;
+  document.getElementById("av_tag").appendChild(opt);
+}
+
+document.getElementById("av_jahr_bf").addEventListener("input", e => {
+  const jahr = parseInt(e.target.value);
+  if (!isNaN(jahr)) {
+    const hal = jahr - 993;
+    document.getElementById("hal_anzeige").textContent = `(Hal: ${hal})`;
+  } else {
+    document.getElementById("hal_anzeige").textContent = `(Hal: ...)`;
+  }
+});
+
+document.getElementById("kalenderToggle").addEventListener("click", () => {
+  const inhalt = document.getElementById("kalenderInhalt");
+  const btn = document.getElementById("kalenderToggle");
+  if (inhalt.style.display === "none") {
+    inhalt.style.display = "block";
+    btn.textContent = "📅 Kalender schließen";
+  } else {
+    inhalt.style.display = "none";
+    btn.textContent = "📅 Kalender öffnen";
+  }
+});
