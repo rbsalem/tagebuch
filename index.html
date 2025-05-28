@@ -29,7 +29,7 @@
         form.append("file", fileInput.files[0]);
       }
 
-      const response = await fetch("DEIN_SCRIPT_URL_HIER", {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbxXk4TnSYmmN0H7Cz7qZnQ0zmdmbp7N_w4QLHChYHMbkw8E3mLAFxUee-V6fzwJPwYa/exec", {
         method: "POST",
         body: form,
       });
