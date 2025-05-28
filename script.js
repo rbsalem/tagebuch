@@ -186,3 +186,27 @@ document.getElementById("av_jahr_bf").addEventListener("input", updateHalDatum);
 
 // Initial einmal aufrufen
 updateHalDatum();
+
+// Dark Mode standardmäßig aktiv setzen, wenn noch kein Modus gespeichert ist
+if (localStorage.getItem("darkmode") === null) {
+  localStorage.setItem("darkmode", "true");
+}
+
+// Theme beim Laden anwenden
+function applyTheme() {
+  const isDark = localStorage.getItem("darkmode") === "true";
+  document.body.classList.toggle("dark", isDark);
+  const toggle = document.getElementById("toggleDarkMode");
+  if (toggle) toggle.textContent = isDark ? "☀️" : "🌙";
+}
+applyTheme();
+
+// Toggle-Funktion
+const toggleBtn = document.getElementById("toggleDarkMode");
+if (toggleBtn) {
+  toggleBtn.addEventListener("click", () => {
+    const isNowDark = document.body.classList.toggle("dark");
+    localStorage.setItem("darkmode", isNowDark);
+    toggleBtn.textContent = isNowDark ? "☀️" : "🌙";
+  });
+}
