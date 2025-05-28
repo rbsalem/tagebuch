@@ -99,3 +99,32 @@ monatSelect.addEventListener("change", () => {
     namenlos.style.display = "none";
   }
 });
+
+const form = document.getElementById("eintragForm");
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const datum = document.getElementById("datum_irdisch").value;
+  const avTagEl = document.getElementById("av_tag");
+  const avTag = avTagEl && avTagEl.style.display !== "none" ? avTagEl.value : "Namenlose Tage";
+  const avMonat = document.getElementById("av_monat").value;
+  const avJahr = document.getElementById("av_jahr_bf").value;
+  const abenteuer = document.getElementById("titel").value;
+  const text = document.getElementById("text").value.trim();
+
+  const eintrag = {
+    datum,
+    aventurisch: `${avTag}. ${avMonat} ${avJahr} BF`,
+    abenteuer,
+    text
+  };
+
+  const gespeicherte = JSON.parse(localStorage.getItem("eintraege") || "[]");
+  gespeicherte.push(eintrag);
+  localStorage.setItem("eintraege", JSON.stringify(gespeicherte));
+
+  document.getElementById("eintragForm").reset();
+  alert("Eintrag gespeichert!");
+  ladeEintraege();
+});
