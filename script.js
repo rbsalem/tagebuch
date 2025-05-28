@@ -161,3 +161,28 @@ document.getElementById("av_jahr_bf").addEventListener("input", e => {
     halFeld.textContent = `(Hal: ...)`;
   }
 });
+
+function updateHalDatum() {
+  const tag = document.getElementById("av_tag");
+  const monat = document.getElementById("av_monat");
+  const jahr = parseInt(document.getElementById("av_jahr_bf").value);
+
+  if (!isNaN(jahr) && monat.value && (tag.value || monat.value === "namenlos")) {
+    const halJahr = jahr - 993;
+    const halText = monat.value === "namenlos"
+      ? `Tage des Namenlosen ${halJahr} Hal`
+      : `${tag.value}. ${monat.value} ${halJahr} Hal`;
+
+    document.getElementById("hal_anzeige").textContent = `(${halText})`;
+  } else {
+    document.getElementById("hal_anzeige").textContent = `(Hal: ...)`;
+  }
+}
+
+// Bei Änderungen am aventurischen Datum Hal automatisch berechnen
+document.getElementById("av_tag").addEventListener("input", updateHalDatum);
+document.getElementById("av_monat").addEventListener("input", updateHalDatum);
+document.getElementById("av_jahr_bf").addEventListener("input", updateHalDatum);
+
+// Initial einmal aufrufen
+updateHalDatum();
