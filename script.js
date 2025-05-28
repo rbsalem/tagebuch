@@ -87,3 +87,15 @@ toggleButton.addEventListener("click", () => {
 
 applyTheme();
 renderEintraege();
+const monatSelect = document.getElementById("av_monat");
+monatSelect.addEventListener("change", () => {
+  const tagFeld = document.getElementById("av_tag");
+  const namenlos = document.getElementById("namenlosHinweis");
+  if (monatSelect.value === "namenlos") {
+    tagFeld.style.display = "none";
+    namenlos.style.display = "block";
+  } else {
+    tagFeld.style.display = "inline-block";
+    namenlos.style.display = "none";
+  }
+});
