@@ -1,50 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>📖 Heldentagebuch Südaventurien</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Markdown Chronik</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark">
+  <header>
+    <h1>📘 Meine Markdown-Chronik</h1>
+    <button id="toggleDarkMode">🌗 Modus wechseln</button>
+  </header>
 
-  <button id="toggleDarkMode" title="Modus wechseln">☀️</button>
-
-  <div class="sidebar">
-    <h2>🧭 Navigation</h2>
-    <ul>
-      <li><a href="#willkommen">🏰 Willkommen</a></li>
-      <li><a href="#helden">🛡️ Helden</a></li>
-      <li><a href="#chronik">📜 Chronik</a></li>
-      
-    </ul>
-  </div>
-
-  <div class="content">
-    <section id="willkommen">
-      <h1>Willkommen im Heldentagebuch</h1>
-      <p>Die Wellen des Südmeers tragen Geschichten von Mut, List und Magie.</p>
-    </section>
-
-    <section id="helden">
-      <h2>🛡️ Helden</h2>
-      <p>Bald wirst du hier deine Gefährten sehen...</p>
+  <main>
+    <section id="upload">
+      <h2>📤 Hochladen</h2>
+      <button onclick="handleAuthClick()">🔐 Mit Google anmelden</button><br>
+      <input type="file" id="fileInput" accept=".md" multiple><br>
+      <button onclick="uploadFiles()">Dateien hochladen</button>
+      <pre id="status"></pre>
     </section>
 
     <section id="chronik">
-      <h2>📜 Chronik</h2>
-      <div id="eintraegeContainer"></div>
+      <h2>🗂️ Chronik-Einträge</h2>
+      <div id="fileList"></div>
     </section>
 
-    
-
-
-      
-      
+    <section id="preview">
+      <h2>👁️ Vorschau</h2>
+      <div id="previewContent">Wähle eine Datei aus der Liste aus.</div>
     </section>
-  </div>
+  </main>
 
-
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
