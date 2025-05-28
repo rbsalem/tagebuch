@@ -1,15 +1,15 @@
-
 const eintraegeKey = "tagebuchEintraege";
 let eintraege = JSON.parse(localStorage.getItem(eintraegeKey)) || [];
 
 const form = document.getElementById("eintragForm");
 const suchfeld = document.getElementById("suchfeld");
 const container = document.getElementById("eintraegeContainer");
+const toggleButton = document.getElementById("toggleDarkMode");
+const body = document.body;
 
 function renderEintraege(filter = "") {
   container.innerHTML = "";
 
-  // Gruppieren nach Jahr > Monat
   const gruppiert = {};
   eintraege.forEach(e => {
     const jahr = e.jahr;
@@ -49,13 +49,8 @@ function renderEintraege(filter = "") {
 
 function formatEintrag(e) {
   let text = e.text;
-
-  // Bilder einfügen mit [img:URL]
   text = text.replace(/\[img:(.*?)\]/g, '<img src="$1">');
-
-  // Links einfügen mit [link:Text](URL)
   text = text.replace(/\[link:(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
-
   return `<strong>${e.datum}</strong><br>${text}`;
 }
 
@@ -78,4 +73,18 @@ suchfeld.addEventListener("input", e => {
   renderEintraege(e.target.value);
 });
 
+// Dark Mode
+function applyTheme() {
+  const dark = localStorage.getItem("darkmode") === "true";
+  body.classList.toggle("dark", dark);
+  toggleButton.textContent = dark ? "☀️" : "🌙";
+}
+
+toggleButton.addEventListener("click", () => {
+  const isDark = body.classList.toggle("dark");
+  localStorage.setItem("darkmode", isDark);
+  toggleButton.textContent = isDark ? "☀️" : "🌙";
+});
+
+applyTheme();
 renderEintraege();
