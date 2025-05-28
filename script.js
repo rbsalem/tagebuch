@@ -128,3 +128,36 @@ form.addEventListener("submit", e => {
   alert("Eintrag gespeichert!");
   ladeEintraege();
 });
+
+// Dark Mode bei Erststart setzen (falls noch nicht gesetzt)
+if (localStorage.getItem("darkmode") === null) {
+  localStorage.setItem("darkmode", "true");
+}
+
+// Theme beim Start anwenden
+function applyTheme() {
+  const isDark = localStorage.getItem("darkmode") === "true";
+  document.body.classList.toggle("dark", isDark);
+  const toggle = document.getElementById("toggleDarkMode");
+  if (toggle) toggle.textContent = isDark ? "☀️" : "🌙";
+}
+applyTheme();
+
+// Toggle Button Logik
+document.getElementById("toggleDarkMode").addEventListener("click", () => {
+  const isDark = document.body.classList.toggle("dark");
+  localStorage.setItem("darkmode", isDark);
+  document.getElementById("toggleDarkMode").textContent = isDark ? "☀️" : "🌙";
+});
+
+// Hal neu berechnen bei Jahr-Eingabe
+document.getElementById("av_jahr_bf").addEventListener("input", e => {
+  const jahr = parseInt(e.target.value);
+  const halFeld = document.getElementById("hal_anzeige");
+  if (!isNaN(jahr)) {
+    const hal = jahr - 993;
+    halFeld.textContent = `(Hal: ${hal})`;
+  } else {
+    halFeld.textContent = `(Hal: ...)`;
+  }
+});
