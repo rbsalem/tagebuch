@@ -3,42 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mein Tagebuch</title>
+  <title>📓 Mein Tagebuch</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2rem;
+    }
+    textarea {
+      width: 100%;
+      max-width: 600px;
+    }
+    .status {
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
   <h1>📓 Mein Tagebuch</h1>
   <form id="diaryForm">
     <label for="textEntry">Tagebucheintrag:</label><br />
-    <textarea id="textEntry" name="textEntry" rows="10" cols="50"></textarea><br /><br />
+    <textarea id="textEntry" name="textEntry" rows="10" placeholder="Was hast du heute erlebt?"></textarea><br /><br />
 
-    <label for="fileUpload">Datei anhängen (optional):</label><br />
-    <input type="file" id="fileUpload" name="fileUpload" /><br /><br />
-
-    <button type="submit">Speichern</button>
+    <button type="submit">📤 Hochladen</button>
   </form>
 
-  <p id="status"></p>
+  <div class="status" id="status"></div>
 
   <script>
     document.getElementById("diaryForm").addEventListener("submit", async function (e) {
       e.preventDefault();
+      const status = document.getElementById("status");
+      status.textContent = "⏳ Wird hochgeladen ...";
+
       const form = new FormData();
       form.append("text", document.getElementById("textEntry").value);
-      const fileInput = document.getElementById("fileUpload");
-      if (fileInput.files.length > 0) {
-        form.append("file", fileInput.files[0]);
-      }
 
-      const response = await fetch("https://script.google.com/macros/s/AKfycbxysR9v0Jm_SYQ5f0OO-NheTh6OeMNEInlQf6xpLfmeUM4ebQmtWLwJE2KFIo0i-wKG/exec", {
-        method: "POST",
-        body: form,
-      });
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbwnvRa80ZooK99fNALBOeJdCNacchgWUwbVlsrPr6vdpa3ah-7ZlvIS6nL7P3aU9RT5/exec", {
+          method: "POST",
+          body: form,
+        });
 
-      const status = document.getElementById("status");
-      if (response.ok) {
-        status.textContent = "✅ Eintrag gespeichert!";
-      } else {
-        status.textContent = "❌ Fehler beim Speichern.";
+        if (response.ok) {
+          status.textContent = "✅ Eintrag gespeichert!";
+          document.getElementById("diaryForm").reset();
+        } else {
+          status.textContent = "❌ Fehler beim Hochladen.";
+        }
+      } catch (err) {
+        status.textContent = "⚠️ Fehler: " + err.message;
       }
     });
   </script>
