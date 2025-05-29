@@ -16,20 +16,48 @@
     .status {
       margin-top: 1rem;
     }
+    .entry {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-top: 1rem;
+      background: #f9f9f9;
+    }
+    .entry h3 {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
   <h1>📓 Mein Tagebuch</h1>
-  <form id="diaryForm">
-    <label for="textEntry">Tagebucheintrag:</label><br />
-    <textarea id="textEntry" name="textEntry" rows="10" placeholder="Was hast du heute erlebt?"></textarea><br /><br />
 
-    <button type="submit">📤 Hochladen</button>
+  <form id="diaryForm">
+    <label for="textEntry">Neuer Eintrag:</label><br />
+    <textarea id="textEntry" name="textEntry" rows="10" placeholder="Was hast du heute erlebt?"></textarea><br /><br />
+    <button type="submit">📤 Speichern</button>
   </form>
 
   <div class="status" id="status"></div>
 
+  <h2>📚 Vergangene Einträge</h2>
+  <div id="entries"></div>
+
   <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbw3LzINqvwSC_vwkT_XDd_n1uzqt851aQ-QV7RY0H47hlqe-jEgZa_hO-02pBDlzLYs"; // ohne /exec am Ende
+
+    async function loadEntries() {
+      const response = await fetch(scriptURL + "?show=entries");
+      const entries = await response.json();
+      const container = document.getElementById("entries");
+      container.innerHTML = "";
+
+      entries.reverse().forEach(entry => {
+        const div = document.createElement("div");
+        div.className = "entry";
+        div.innerHTML = `<h3>${entry.name}</h3><pre>${entry.content}</pre>`;
+        container.appendChild(div);
+      });
+    }
+
     document.getElementById("diaryForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       const status = document.getElementById("status");
@@ -39,7 +67,7 @@
       form.append("text", document.getElementById("textEntry").value);
 
       try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbxbqA0qc8cxTEBFWUoeOf6F0h2aA5u87BK_dUYyUuTktYRd4bf-ZWVAL5Cl_W9mqdco/exec", {
+        const response = await fetch(scriptURL, {
           method: "POST",
           body: form,
         });
@@ -47,6 +75,7 @@
         if (response.ok) {
           status.textContent = "✅ Eintrag gespeichert!";
           document.getElementById("diaryForm").reset();
+          await loadEntries(); // neue Liste laden
         } else {
           status.textContent = "❌ Fehler beim Hochladen.";
         }
@@ -54,6 +83,9 @@
         status.textContent = "⚠️ Fehler: " + err.message;
       }
     });
+
+    // Lade Einträge beim Start
+    loadEntries();
   </script>
 </body>
 </html>
