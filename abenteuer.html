@@ -51,7 +51,7 @@
   </section>
 
   <script>
-    fetch("abenteuer_liste.json")
+   fetch("https://raw.githubusercontent.com/rbsalem/tagebuch/main/abenteuer_liste.json")
       .then(res => res.json())
       .then(data => {
         const container = document.querySelector("#abenteuer-wrapper .adventure-row");
