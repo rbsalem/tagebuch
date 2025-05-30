@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abenteuer-Editor</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abenteuer-Editor (GitHub Upload + Linkliste)</title>
   <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f8f8f8; }
+    body { font-family: sans-serif; padding: 2rem; background: #f8f8f8; max-width: 800px; margin: auto; }
     h1 { margin-bottom: 1rem; }
     label { display: block; margin-top: 1rem; }
     textarea, input { width: 100%; padding: 0.5rem; font-family: monospace; margin-top: 0.3rem; }
     button { margin-top: 1.5rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
-    .preview { border: 1px solid #ccc; background: white; padding: 1rem; margin-top: 2rem; }
+    .info { font-size: 0.9rem; color: #555; }
   </style>
 </head>
 <body>
-  <h1>Neues Abenteuer erstellen</h1>
-  <label for="filename">Dateiname (z.B. abenteuer_25.html)</label>
-  <input type="text" id="filename" placeholder="abenteuer_25.html" />
+  <h1>Neues Abenteuer erstellen & auf GitHub hochladen</h1>
 
-  <label for="title">Titel des Abenteuers</label>
+  <label for="token">🔐 GitHub Personal Access Token:</label>
+  <input type="password" id="token" placeholder="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" />
+
+  <label for="filename">📄 Dateiname (z. B. abenteuer_026.html):</label>
+  <input type="text" id="filename" placeholder="abenteuer_026.html" />
+
+  <label for="title">📝 Titel des Abenteuers:</label>
   <input type="text" id="title" placeholder="Titel eingeben..." />
 
-  <label for="content">Inhalt</label>
-  <textarea id="content" rows="15" placeholder="Abenteuertext hier eingeben..."></textarea>
+  <label for="content">📚 Inhalt:</label>
+  <textarea id="content" rows="12" placeholder="Abenteuertext hier eingeben..."></textarea>
 
-  <button onclick="generateFile()">Seite erstellen & herunterladen</button>
+  <button onclick="createAndUpload()">Erstellen & Hochladen</button>
 
-  <div class="preview" id="preview"></div>
+  <p class="info">Die Seite wird im gleichen Stil erstellt und inkl. JSON-Linkliste auf GitHub hochgeladen.</p>
 
   <script>
-    function generateFile() {
-      const filename = document.getElementById('filename').value.trim();
+  const username = "rbsalem";
+const repo = "tagebuch";
+const branch = "main";
+
+    async function createAndUpload() {
+      const token = document.getElementById('token').value.trim();
+      let filename = document.getElementById('filename').value.trim();
       const title = document.getElementById('title').value.trim();
       const content = document.getElementById('content').value.trim().replace(/\n/g, '<br>');
 
-      if (!filename || !title || !content) {
+      filename = filename.replace(/abenteuer_(\d+)\.html/, (match, n) => {
+        return `abenteuer_${(+n).toString().padStart(2, '0')}.html`;
+      });
+
+      if (!token || !filename || !title || !content) {
         alert('Bitte alle Felder ausfüllen.');
         return;
       }
@@ -63,13 +76,85 @@
 </body>
 </html>`;
 
-      const blob = new Blob([html], { type: 'text/html' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      a.click();
+      await uploadFile(filename, html, token, `Neue Abenteuer-Seite: ${filename}`);
+      await updateJsonList(filename, title, token);
+    }
 
-      document.getElementById('preview').innerHTML = html;
+    async function uploadFile(path, content, token, message) {
+      const base64Content = btoa(unescape(encodeURIComponent(content)));
+
+      const response = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+          message,
+          content: base64Content,
+          branch
+        })
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(`✅ HTML-Datei erfolgreich hochgeladen: ${path}`);
+      } else {
+        console.error(result);
+        alert(`❌ Fehler beim Hochladen der HTML-Datei: ${result.message}`);
+      }
+    }
+
+    async function updateJsonList(newFile, newTitle, token) {
+      const jsonPath = "abenteuer_liste.json";
+      const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${jsonPath}`;
+
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      };
+
+      let liste = [];
+      let sha = null;
+
+      const getRes = await fetch(apiUrl, { headers });
+      if (getRes.ok) {
+        const data = await getRes.json();
+        sha = data.sha;
+        liste = JSON.parse(atob(data.content));
+      } else if (getRes.status === 404) {
+        liste = [];
+      } else {
+        alert("❌ Fehler beim Abrufen der Linkliste");
+        return;
+      }
+
+      liste.push({ file: newFile, title: newTitle });
+
+      const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(liste, null, 2))));
+
+      const payload = {
+        message: `abenteuer_liste.json aktualisiert mit ${newFile}`,
+        content: newContent,
+        branch
+      };
+      if (typeof sha === 'string' && sha.length > 0) {
+        payload.sha = sha;
+      }
+
+      const putRes = await fetch(apiUrl, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(payload)
+      });
+
+      const putResult = await putRes.json();
+      if (putRes.ok) {
+        alert('✅ Liste erfolgreich erstellt oder aktualisiert.');
+      } else {
+        console.error(putResult);
+        alert(`❌ Fehler beim Schreiben der Liste: ${putResult.message}`);
+      }
     }
   </script>
 </body>
