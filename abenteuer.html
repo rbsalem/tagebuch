@@ -21,6 +21,34 @@
 
   <main id="chronik">
     <noscript>Bitte JavaScript aktivieren, um die Abenteuerliste zu sehen.</noscript>
+
+    <!-- Statische Einträge 01–24 -->
+    <section class="static-entries">
+      <a class="button" href="abenteuer_01.html">Abenteuer 01</a>
+      <a class="button" href="abenteuer_02.html">Abenteuer 02</a>
+      <a class="button" href="abenteuer_03.html">Abenteuer 03</a>
+      <a class="button" href="abenteuer_04.html">Abenteuer 04</a>
+      <a class="button" href="abenteuer_05.html">Abenteuer 05</a>
+      <a class="button" href="abenteuer_06.html">Abenteuer 06</a>
+      <a class="button" href="abenteuer_07.html">Abenteuer 07</a>
+      <a class="button" href="abenteuer_08.html">Abenteuer 08</a>
+      <a class="button" href="abenteuer_09.html">Abenteuer 09</a>
+      <a class="button" href="abenteuer_10.html">Abenteuer 10</a>
+      <a class="button" href="abenteuer_11.html">Abenteuer 11</a>
+      <a class="button" href="abenteuer_12.html">Abenteuer 12</a>
+      <a class="button" href="abenteuer_13.html">Abenteuer 13</a>
+      <a class="button" href="abenteuer_14.html">Abenteuer 14</a>
+      <a class="button" href="abenteuer_15.html">Abenteuer 15</a>
+      <a class="button" href="abenteuer_16.html">Abenteuer 16</a>
+      <a class="button" href="abenteuer_17.html">Abenteuer 17</a>
+      <a class="button" href="abenteuer_18.html">Abenteuer 18</a>
+      <a class="button" href="abenteuer_19.html">Abenteuer 19</a>
+      <a class="button" href="abenteuer_20.html">Abenteuer 20</a>
+      <a class="button" href="abenteuer_21.html">Abenteuer 21</a>
+      <a class="button" href="abenteuer_22.html">Abenteuer 22</a>
+      <a class="button" href="abenteuer_23.html">Abenteuer 23</a>
+      <a class="button" href="abenteuer_24.html">Abenteuer 24</a>
+    </section>
   </main>
 
   <script>
@@ -28,20 +56,23 @@
       .then(res => res.json())
       .then(data => {
         const chronik = document.getElementById("chronik");
-        chronik.innerHTML = "";
 
-        const sorted = data.slice().reverse(); // Neueste zuerst
+        const section = document.createElement("section");
+        section.className = "dynamic-entries";
+
+        const sorted = data.slice().reverse();
         for (const eintrag of sorted) {
           const link = document.createElement("a");
           link.href = eintrag.file;
+          link.className = "button";
           link.textContent = eintrag.title;
-          link.style.display = "block";
-          link.style.marginBottom = "1rem";
-          chronik.appendChild(link);
+          section.appendChild(link);
         }
+
+        chronik.appendChild(section);
       })
       .catch(err => {
-        document.getElementById("chronik").innerHTML = "<p>⚠️ Abenteuerliste konnte nicht geladen werden.</p>";
+        document.getElementById("chronik").innerHTML += "<p>⚠️ Neue Abenteuer konnten nicht geladen werden.</p>";
         console.error("Fehler beim Laden der Abenteuerliste:", err);
       });
   </script>
