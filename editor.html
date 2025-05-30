@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abenteuer-Editor</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f8f8f8; }
+    h1 { margin-bottom: 1rem; }
+    label { display: block; margin-top: 1rem; }
+    textarea, input { width: 100%; padding: 0.5rem; font-family: monospace; margin-top: 0.3rem; }
+    button { margin-top: 1.5rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+    .preview { border: 1px solid #ccc; background: white; padding: 1rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Neues Abenteuer erstellen</h1>
+  <label for="filename">Dateiname (z.B. abenteuer_25.html)</label>
+  <input type="text" id="filename" placeholder="abenteuer_25.html" />
+
+  <label for="title">Titel des Abenteuers</label>
+  <input type="text" id="title" placeholder="Titel eingeben..." />
+
+  <label for="content">Inhalt</label>
+  <textarea id="content" rows="15" placeholder="Abenteuertext hier eingeben..."></textarea>
+
+  <button onclick="generateFile()">Seite erstellen & herunterladen</button>
+
+  <div class="preview" id="preview"></div>
+
+  <script>
+    function generateFile() {
+      const filename = document.getElementById('filename').value.trim();
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim().replace(/\n/g, '<br>');
+
+      if (!filename || !title || !content) {
+        alert('Bitte alle Felder ausfüllen.');
+        return;
+      }
+
+      const html = `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${title}</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:700&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: url('compressed_ChatGPT Image 29. Mai 2025, 04_06_43.png'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+  <nav>
+    <a href="index.html">der Heimathafen</a>
+    <a href="crew.html">die Mannschaft</a>
+    <a href="schiff.html">das Schiff</a>
+    <a href="abenteuer.html">die Abenteuer</a>
+  </nav>
+
+  <header>
+    <h1>${title}</h1>
+    <p>${content}</p>
+  </header>
+</body>
+</html>`;
+
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+
+      document.getElementById('preview').innerHTML = html;
+    }
+  </script>
+</body>
+</html>
