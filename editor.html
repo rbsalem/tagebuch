@@ -11,13 +11,14 @@
     textarea, input { width: 100%; padding: 0.5rem; font-family: monospace; margin-top: 0.3rem; }
     button { margin-top: 1.5rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
     .info { font-size: 0.9rem; color: #555; }
+    #status { margin-top: 2rem; padding: 1rem; border-radius: 5px; background: #eef; font-size: 0.95rem; display: none; }
   </style>
 </head>
 <body>
   <h1>Neues Abenteuer erstellen & auf GitHub hochladen</h1>
 
   <label for="token">🔐 GitHub Personal Access Token:</label>
-  <input type="password" id="token" placeholder="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" />
+ <input type="password" id="token" placeholder="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" />
 
   <label for="filename">📄 Dateiname (z. B. abenteuer_026.html):</label>
   <input type="text" id="filename" placeholder="abenteuer_026.html" />
@@ -30,12 +31,21 @@
 
   <button onclick="createAndUpload()">Erstellen & Hochladen</button>
 
+  <div id="status"></div>
   <p class="info">Die Seite wird im gleichen Stil erstellt und inkl. JSON-Linkliste auf GitHub hochgeladen.</p>
 
   <script>
-  const username = "rbsalem";
+const username = "rbsalem";
 const repo = "tagebuch";
 const branch = "main";
+
+    function setStatus(message, isError = false) {
+      const statusEl = document.getElementById("status");
+      statusEl.style.display = "block";
+      statusEl.style.background = isError ? "#fdd" : "#dfd";
+      statusEl.style.color = isError ? "#900" : "#060";
+      statusEl.textContent = message;
+    }
 
     async function createAndUpload() {
       const token = document.getElementById('token').value.trim();
@@ -48,7 +58,7 @@ const branch = "main";
       });
 
       if (!token || !filename || !title || !content) {
-        alert('Bitte alle Felder ausfüllen.');
+        setStatus('Bitte alle Felder ausfüllen.', true);
         return;
       }
 
@@ -68,7 +78,6 @@ const branch = "main";
     <a href="schiff.html">das Schiff</a>
     <a href="abenteuer.html">die Abenteuer</a>
   </nav>
-
   <header>
     <h1>${title}</h1>
     <p>${content}</p>
@@ -98,10 +107,10 @@ const branch = "main";
 
       const result = await response.json();
       if (response.ok) {
-        alert(`✅ HTML-Datei erfolgreich hochgeladen: ${path}`);
+        setStatus(`✅ HTML-Datei erfolgreich hochgeladen: ${path}`);
       } else {
         console.error(result);
-        alert(`❌ Fehler beim Hochladen der HTML-Datei: ${result.message}`);
+        setStatus(`❌ Fehler beim Hochladen der HTML-Datei: ${result.message}`, true);
       }
     }
 
@@ -125,7 +134,7 @@ const branch = "main";
       } else if (getRes.status === 404) {
         liste = [];
       } else {
-        alert("❌ Fehler beim Abrufen der Linkliste");
+        setStatus("❌ Fehler beim Abrufen der Linkliste", true);
         return;
       }
 
@@ -150,10 +159,10 @@ const branch = "main";
 
       const putResult = await putRes.json();
       if (putRes.ok) {
-        alert('✅ Liste erfolgreich erstellt oder aktualisiert.');
+        setStatus('✅ Liste erfolgreich erstellt oder aktualisiert.');
       } else {
         console.error(putResult);
-        alert(`❌ Fehler beim Schreiben der Liste: ${putResult.message}`);
+        setStatus(`❌ Fehler beim Schreiben der Liste: ${putResult.message}`, true);
       }
     }
   </script>
