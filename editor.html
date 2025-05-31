@@ -18,10 +18,10 @@
   <h1>Neues Abenteuer erstellen & auf GitHub hochladen</h1>
 
   <label for="token">🔐 GitHub Personal Access Token:</label>
- <input type="password" id="token" placeholder="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" />
+  <input type="password" id="token" placeholder="Token hier eingeben..." />
 
-  <label for="filename">📄 Dateiname (z. B. abenteuer_026.html):</label>
-  <input type="text" id="filename" placeholder="abenteuer_026.html" />
+  <label for="nummer">📄 Abenteuer-Nummer (z. B. 26):</label>
+  <input type="number" id="nummer" placeholder="Nummer eingeben..." min="1" />
 
   <label for="title">📝 Titel des Abenteuers:</label>
   <input type="text" id="title" placeholder="Titel eingeben..." />
@@ -35,9 +35,9 @@
   <p class="info">Die Seite wird im gleichen Stil erstellt und inkl. JSON-Linkliste auf GitHub hochgeladen.</p>
 
   <script>
-const username = "rbsalem";
-const repo = "tagebuch";
-const branch = "main";
+    const username = "rbsalem";
+    const repo = "tagebuch";
+    const branch = "main";
 
     function setStatus(message, isError = false) {
       const statusEl = document.getElementById("status");
@@ -49,18 +49,17 @@ const branch = "main";
 
     async function createAndUpload() {
       const token = document.getElementById('token').value.trim();
-      let filename = document.getElementById('filename').value.trim();
+      const nummer = parseInt(document.getElementById('nummer').value);
       const title = document.getElementById('title').value.trim();
       const content = document.getElementById('content').value.trim().replace(/\n/g, '<br>');
 
-      filename = filename.replace(/abenteuer_(\d+)\.html/, (match, n) => {
-        return `abenteuer_${(+n).toString().padStart(2, '0')}.html`;
-      });
-
-      if (!token || !filename || !title || !content) {
-        setStatus('Bitte alle Felder ausfüllen.', true);
+      if (!token || isNaN(nummer) || !title || !content) {
+        setStatus('Bitte alle Felder korrekt ausfüllen.', true);
         return;
       }
+
+      const paddedNum = nummer.toString().padStart(2, '0');
+      const filename = `Abenteuer_${paddedNum}.html`;
 
       const html = `<!DOCTYPE html>
 <html lang="de">
