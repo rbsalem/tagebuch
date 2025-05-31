@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abenteuer-Editor (GitHub Upload + Linkliste)</title>
+  <title>Abenteuer-Editor (GitHub Upload)</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #f8f8f8; max-width: 800px; margin: auto; }
     h1 { margin-bottom: 1rem; }
@@ -32,7 +32,7 @@
   <button onclick="createAndUpload()">Erstellen & Hochladen</button>
 
   <div id="status"></div>
-  <p class="info">Die Seite wird im gleichen Stil erstellt und inkl. JSON-Linkliste auf GitHub hochgeladen.</p>
+  <p class="info">Die Seite wird im gleichen Stil erstellt und direkt auf GitHub hochgeladen.</p>
 
   <script>
     const username = "rbsalem";
@@ -72,10 +72,10 @@
 </head>
 <body style="background-image: url('compressed_ChatGPT Image 29. Mai 2025, 04_06_43.png'); background-size: cover; background-repeat: no-repeat; background-position: center;">
   <nav>
-    <a href="index.html">der Heimathafen</a>
-    <a href="crew.html">die Mannschaft</a>
-    <a href="schiff.html">das Schiff</a>
-    <a href="abenteuer.html">die Abenteuer</a>
+    <a href="index.html">Unser Heimathafen</a>
+    <a href="crew.html">Unsere Mannschaft</a>
+    <a href="schiff.html">Unser Schiff</a>
+    <a href="abenteuer.html">Unsere Abenteuer</a>
   </nav>
   <header>
     <h1>${title}</h1>
@@ -85,7 +85,6 @@
 </html>`;
 
       await uploadFile(filename, html, token, `Neue Abenteuer-Seite: ${filename}`);
-      await updateJsonList(filename, title, token);
     }
 
     async function uploadFile(path, content, token, message) {
@@ -110,58 +109,6 @@
       } else {
         console.error(result);
         setStatus(`❌ Fehler beim Hochladen der HTML-Datei: ${result.message}`, true);
-      }
-    }
-
-    async function updateJsonList(newFile, newTitle, token) {
-      const jsonPath = "abenteuer_liste.json";
-      const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${jsonPath}`;
-
-      const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/vnd.github.v3+json'
-      };
-
-      let liste = [];
-      let sha = null;
-
-      const getRes = await fetch(apiUrl, { headers });
-      if (getRes.ok) {
-        const data = await getRes.json();
-        sha = data.sha;
-        liste = JSON.parse(atob(data.content));
-      } else if (getRes.status === 404) {
-        liste = [];
-      } else {
-        setStatus("❌ Fehler beim Abrufen der Linkliste", true);
-        return;
-      }
-
-      liste.push({ file: newFile, title: newTitle });
-
-      const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(liste, null, 2))));
-
-      const payload = {
-        message: `abenteuer_liste.json aktualisiert mit ${newFile}`,
-        content: newContent,
-        branch
-      };
-      if (typeof sha === 'string' && sha.length > 0) {
-        payload.sha = sha;
-      }
-
-      const putRes = await fetch(apiUrl, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify(payload)
-      });
-
-      const putResult = await putRes.json();
-      if (putRes.ok) {
-        setStatus('✅ Liste erfolgreich erstellt oder aktualisiert.');
-      } else {
-        console.error(putResult);
-        setStatus(`❌ Fehler beim Schreiben der Liste: ${putResult.message}`, true);
       }
     }
   </script>
