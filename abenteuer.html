@@ -21,8 +21,8 @@
   </header>
 
   <section id="abenteuer-wrapper">
-    <!-- Feste Abenteuer 01–24 -->
     <div class="adventure-row">
+      <a href="Abenteuer_25.html"><div class="adventure-title">Abenteuer&nbsp;25</div></a>
       <a href="abenteuer_24.html"><div class="adventure-title">Abenteuer&nbsp;24</div></a>
       <a href="abenteuer_23.html"><div class="adventure-title">Abenteuer&nbsp;23</div></a>
       <a href="abenteuer_22.html"><div class="adventure-title">Abenteuer&nbsp;22</div></a>
@@ -49,29 +49,5 @@
       <a href="abenteuer_01.html"><div class="adventure-title">Abenteuer&nbsp;1</div></a>
     </div>
   </section>
-
-  <script>
-   fetch("https://raw.githubusercontent.com/rbsalem/tagebuch/main/abenteuer_liste.json")
-      .then(res => res.json())
-      .then(data => {
-        const container = document.querySelector("#abenteuer-wrapper .adventure-row");
-        const sorted = data.slice().reverse();
-
-        for (const eintrag of sorted) {
-          const a = document.createElement("a");
-          a.href = eintrag.file;
-
-          const div = document.createElement("div");
-          div.className = "adventure-title";
-          div.innerHTML = eintrag.title;
-
-          a.appendChild(div);
-          container.insertBefore(a, container.firstChild);
-        }
-      })
-      .catch(err => {
-        console.error("Fehler beim Laden der Abenteuerliste:", err);
-      });
-  </script>
 </body>
 </html>
